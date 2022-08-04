@@ -1,0 +1,4 @@
+from geo import *
+
+c = Rectangle(10, 5)
+print(c.area())
