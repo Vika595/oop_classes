@@ -1,0 +1,100 @@
+from math import sin, radians
+class Tetragon:
+    def __init__(self, down_side, upper_side, left_side, right_side):
+        self.l = left_side
+        self.r = right_side
+        self.d = down_side
+        self.u = upper_side
+
+
+    def perimeter(self, down_side, upper_side, left_side, right_side):
+        return down_side + upper_side + left_side + right_side
+
+
+class Parallelogram(Tetragon):
+    def __init__(self, base, side, height=None, angle=None):
+        self.base = base
+        self.side = side
+        self.height = height
+        self.angle = angle
+
+
+    def area(self, base, side, height, angel):
+        if height != None:
+            if height <= side:
+                return base * height
+            else:
+                return 'Такой фигуры нет'
+        elif angel != None:
+            if angel < 180:
+                return round(base * side * sin(radians(angel)),2)
+            else:
+                return 'Такой фигуры нет'
+        else:
+            return 'Невозможно посчитать площадь фигуры'
+
+
+    def perimeter(self):
+        return Tetragon.perimeter(self, self.base, self.base, self.side, self.side)
+
+
+class Deltoid(Tetragon):
+    def __init__(self, upper_side, lower_side, angel):
+        self.u = upper_side
+        self.l = lower_side
+        self.angel = angel
+
+    def perimeter(self):
+        return Tetragon.perimeter(self, self.u, self.l, self.u, self.l)
+
+    def area(self):
+        return Parallelogram.area(self, self.u, self.l, height=None, angel=self.angel)
+
+class Trapezoid(Tetragon):
+    def __init__(self, top_side, bottom_side, left_side, right_side, height=None):
+        self.top = top_side
+        self.bottom = bottom_side
+        self.left = left_side
+        self.right = right_side
+        self.height = height
+
+    def perimeter(self):
+        return Tetragon.perimeter(self, self.bottom, self.top, self.left, self.right)
+
+    def area(self):
+        return Parallelogram.area(self, self.u, self.l, height=None, angel=self.angel)
+
+class Rhombus(Parallelogram):
+    def __init__(self, side, height=None, angel=None):
+        self.side = side
+        self.height = height
+        self.angel = angel
+
+    def perimeter(self):
+        return Tetragon.perimeter(self, self.side, self.side, self.side, self.side)
+
+    def area(self):
+        return Parallelogram.area(self, self.side, self.side, height=self.height, angel=self.angel)
+
+
+class Rectangle (Parallelogram):
+    def __init__(self, base, side):
+        self.side = side
+        self.base = base
+
+    def perimeter(self):
+        return Tetragon.perimeter(self, self.side, self.side, self.side, self.side)
+
+    def area(self):
+        return Parallelogram.area(self, self.side, self.base, height=None, angel=90)
+
+class Square(Rectangle, Rhombus):
+    def __init__(self, a):
+        self.side = a
+
+
+    def Area(self):
+        return self.side * self.side
+
+    def perimeter(self):
+        return Tetragon.perimeter(self, self.side, self.side, self.side, self.side)
